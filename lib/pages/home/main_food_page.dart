@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:food_delivery_demo/pages/home/food_page_builder.dart';
+import 'package:food_delivery_demo/utils/colors.dart';
+import 'package:food_delivery_demo/utils/dimensions.dart';
+import 'package:food_delivery_demo/widgets/big_text.dart';
 import 'package:food_delivery_demo/widgets/small_text.dart';
-import '../utils/colors.dart';
-import '../widgets/big_text.dart';
 
 class MainFoodPage extends StatefulWidget {
   const MainFoodPage({Key? key}) : super(key: key);
@@ -14,23 +16,24 @@ class MainFoodPage extends StatefulWidget {
 class _MainFoodPageState extends State<MainFoodPage> {
   @override
   Widget build(BuildContext context) {
-    //SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: []);
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: []);
     return Scaffold(
-      //resizeToAvoidBottomInset: false,
+      resizeToAvoidBottomInset: false,
 
       body: Column(
         children: [
+          //This handles the header section
           Container(
               child: Container(
-                margin: EdgeInsets.only(top: 15, bottom: 15),
-                padding: EdgeInsets.only(left: 20, right: 20),
+                margin: EdgeInsets.only(top: Dimensions.height15, bottom: Dimensions.height15),
+                padding: EdgeInsets.only(left: Dimensions.width20, right: Dimensions.width20),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Column(
                       children: [
                         BigText(text: "Nigeria", color: AppColors.mainColor,),
-                        const SizedBox(height: 5,),
+                        //SizedBox(height: Dimensions.height10,),
                         Row(
                           children: [
                             SmallText(text: "Lagos", color: Colors.black54,),
@@ -41,19 +44,21 @@ class _MainFoodPageState extends State<MainFoodPage> {
                     ),
                     Center(
                       child: Container(
-                        height: 45,
-                        width: 45,
+                        height: Dimensions.height45,
+                        width: Dimensions.width45,
                         decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(15),
+                            borderRadius: BorderRadius.circular(Dimensions.radius15),
                             color: AppColors.mainColor
                         ),
-                        child: Icon(Icons.search, color: Colors.white,),
+                        child: Icon(Icons.search, color: Colors.white, size: Dimensions.iconSize24,),
                       ),
                     )
                   ],
                 ),
               )
           ),
+          //This handles the rest of the body
+          Expanded(child: const SingleChildScrollView(child: FoodPageBuilder(),))
         ],
       )
     );
