@@ -4,6 +4,7 @@ import 'package:food_delivery_demo/utils/dimensions.dart';
 import 'package:food_delivery_demo/widgets/app_icons.dart';
 import 'package:food_delivery_demo/widgets/app_column.dart';
 import 'package:food_delivery_demo/widgets/big_text.dart';
+import 'package:food_delivery_demo/widgets/expandable_widget.dart';
 
 class PopularFoodDetail extends StatelessWidget {
   const PopularFoodDetail({Key? key}) : super(key: key);
@@ -14,6 +15,7 @@ class PopularFoodDetail extends StatelessWidget {
       backgroundColor: Colors.white,
       body: Stack(
         children: [
+          //background Image
           Positioned(
               left: 0,
               right: 0,
@@ -29,6 +31,7 @@ class PopularFoodDetail extends StatelessWidget {
                 ),
               )
           ),
+          //Icon Widget
           Positioned(
               top: Dimensions.height45,
               left: Dimensions.width20,
@@ -41,6 +44,7 @@ class PopularFoodDetail extends StatelessWidget {
                 ],
               )
           ),
+          //Food Details
           Positioned(
             left: 0,
             right: 0,
@@ -56,17 +60,23 @@ class PopularFoodDetail extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   AppColumn(text: "Amala",),
-                  SizedBox(height: Dimensions.height20,),
-                  BigText(text: "Introducing")
+                  SizedBox(height: Dimensions.height10,),
+                  BigText(text: "Introducing"),
+                  SizedBox(height: Dimensions.height10,),
+                  Expanded(
+                    child: SingleChildScrollView(child:
+                    ExpandableTextWidget(text:
+                    "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Faucibus in ornare quam viverra orci sagittis eu volutpat odio. Ullamcorper malesuada proin libero nunc consequat interdum varius sit. Non pulvinar neque laoreet suspendisse interdum consectetur libero id faucibus. Sem fringilla ut morbi tincidunt augue interdum. At urna condimentum mattis pellentesque id. Volutpat diam ut venenatis tellus. Sed arcu non odio euismod lacinia at. Fringilla est ullamcorper eget nulla facilisi etiam dignissim diam quis. Praesent elementum facilisis leo vel fringilla est. Eros donec ac odio tempor orci dapibus.")),
+                  )
                 ],
               )
             ),
-          )
+          ),
         ],
       ),
       bottomNavigationBar: Container(
-        height: Dimensions.bottomnavbarheight120,
-        padding: EdgeInsets.only(top: Dimensions.height30, bottom: Dimensions.height30, left: Dimensions.width20, right: Dimensions.width20),
+        height: Dimensions.bottomnavbarheight110,
+        padding: EdgeInsets.only(top: Dimensions.height20, bottom: Dimensions.height20, left: Dimensions.width20, right: Dimensions.width20),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.only(topLeft: Radius.circular(Dimensions.radius20*2), topRight: Radius.circular(Dimensions.radius20*2)),
           color: AppColors.buttonBackgroundColor
