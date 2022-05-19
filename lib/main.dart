@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:food_delivery_demo/controllers/popular_products_controller.dart';
 import 'package:food_delivery_demo/pages/food/recommended_food_details.dart';
 import 'package:food_delivery_demo/pages/home/main_food_page.dart';
 import 'package:get/get.dart';
 import 'package:food_delivery_demo/pages/food/popular_food_detail.dart';
 import 'package:food_delivery_demo/pages/food/recommended_food_details.dart';
 
-void main() {
+import 'helper/dependencies.dart' as dep;
+
+Future<void> main() async {
+  await dep.init();
   runApp(const MyApp());
 }
 
@@ -15,12 +19,13 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    Get.find<PopularProductsController>().getPopularProductList();
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       theme: ThemeData(
 
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.yellow,
       ),
       home: RecommendedFoodDetail(),
     );
