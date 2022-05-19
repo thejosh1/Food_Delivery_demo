@@ -14,7 +14,7 @@ class PopularProductsController extends GetxController {
       print("got products");
       _popularProductList = [];
       _popularProductList.addAll(Product.fromJson(res.body).products);
-      print(_popularProductList);
+      //print(_popularProductList);
       update();
     } else {
       print("Error occurred and the error is "+res.body);
