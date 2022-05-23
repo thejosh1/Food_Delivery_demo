@@ -1,16 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:food_delivery_demo/controllers/popular_products_controller.dart';
+import 'package:food_delivery_demo/pages/home/main_food_page.dart';
 import 'package:food_delivery_demo/utils/colors.dart';
 import 'package:food_delivery_demo/utils/dimensions.dart';
 import 'package:food_delivery_demo/widgets/app_icons.dart';
 import 'package:food_delivery_demo/widgets/app_column.dart';
 import 'package:food_delivery_demo/widgets/big_text.dart';
 import 'package:food_delivery_demo/widgets/expandable_widget.dart';
+import 'package:get/get.dart';
 
 class PopularFoodDetail extends StatelessWidget {
-  const PopularFoodDetail({Key? key}) : super(key: key);
+  int pageId;
+  PopularFoodDetail({Key? key, required this.pageId}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    var product = Get.find<PopularProductsController>().popularProductList[pageId];
+   // print("product id is " + pageId.toString());
+   // print("product name is " + product.name.toString());
     return Scaffold(
       backgroundColor: Colors.white,
       body: Stack(
@@ -39,8 +46,8 @@ class PopularFoodDetail extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  AppIcons(icon: Icons.arrow_back_ios),
-                  AppIcons(icon: Icons.shopping_cart)
+                  GestureDetector(onTap: (){Get.to(()=>const MainFoodPage());}, child: const AppIcons(icon: Icons.arrow_back_ios)),
+                  const AppIcons(icon: Icons.shopping_cart)
                 ],
               )
           ),
@@ -59,14 +66,14 @@ class PopularFoodDetail extends StatelessWidget {
               child:  Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  AppColumn(text: "Amala",),
+                  AppColumn(text: product.name!,),
                   SizedBox(height: Dimensions.height10,),
                   BigText(text: "Introducing"),
                   SizedBox(height: Dimensions.height10,),
                   Expanded(
                     child: SingleChildScrollView(child:
-                    ExpandableTextWidget(text:
-                    "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Faucibus in ornare quam viverra orci sagittis eu volutpat odio. Ullamcorper malesuada proin libero nunc consequat interdum varius sit. Non pulvinar neque laoreet suspendisse interdum consectetur libero id faucibus. Sem fringilla ut morbi tincidunt augue interdum. At urna condimentum mattis pellentesque id. Volutpat diam ut venenatis tellus. Sed arcu non odio euismod lacinia at. Fringilla est ullamcorper eget nulla facilisi etiam dignissim diam quis. Praesent elementum facilisis leo vel fringilla est. Eros donec ac odio tempor orci dapibus.")),
+                    ExpandableTextWidget(text:product.description!)
+                    )
                   )
                 ],
               )

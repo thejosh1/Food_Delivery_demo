@@ -1,5 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:dots_indicator/dots_indicator.dart';
+import 'package:food_delivery_demo/controllers/popular_products_controller.dart';
+import 'package:food_delivery_demo/controllers/recommended_products_controller.dart';
+import 'package:food_delivery_demo/model/popular_product_model.dart';
+import 'package:food_delivery_demo/pages/food/popular_food_detail.dart';
+import 'package:food_delivery_demo/routes/routes_helper.dart';
+import 'package:food_delivery_demo/utils/app_constants.dart';
 import 'package:food_delivery_demo/utils/colors.dart';
 import 'package:food_delivery_demo/utils/dimensions.dart';
 import 'package:food_delivery_demo/widgets/app_column.dart';
@@ -43,27 +49,30 @@ class _FoodPageBuilderState extends State<FoodPageBuilder> {
     print("The Screen Width is " + MediaQuery.of(context).size.width.toString());
     return Column(
       children: [
-        Container(
-          height: Dimensions.pageView,
-          child: PageView.builder(
-              controller: pageController,
-              itemCount: 5,
-              itemBuilder: (context, index) {
-                return _buildPageItem(index);
-              }),
-        ),
-        new DotsIndicator(
-          dotsCount: 5,
-          position: _currentPageValue,
-          decorator: DotsDecorator(
-            activeColor: AppColors.mainColor,
-            size: const Size.square(9.0),
-            activeSize: const Size(18.0, 9.0),
-            activeShape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5.0)
-            ),
-          ),
-        ),
-
+        GetBuilder<PopularProductsController>(builder: (popularProducts) {
+          return popularProducts.isLoaded?Container(
+              height: Dimensions.pageView,
+              child: PageView.builder(
+                controller: pageController,
+                itemCount: popularProducts.popularProductList.length,
+                itemBuilder: (context, index) {
+                  return _buildPageItem(index, popularProducts.popularProductList[index]);
+                },)
+          ):CircularProgressIndicator(color: AppColors.mainColor,);
+        }),
+       GetBuilder<PopularProductsController>(builder: (popularProducts){
+         return  DotsIndicator(
+           dotsCount: popularProducts.popularProductList.isEmpty?1:popularProducts.popularProductList.length,
+           position: _currentPageValue,
+           decorator: DotsDecorator(
+             activeColor: AppColors.mainColor,
+             size: const Size.square(9.0),
+             activeSize: const Size(18.0, 9.0),
+             activeShape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5.0)
+             ),
+           ),
+         );
+       }),
         //Popular text
         SizedBox(height: Dimensions.height30,),
         Container(
@@ -71,7 +80,7 @@ class _FoodPageBuilderState extends State<FoodPageBuilder> {
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
-              BigText(text: "Popular"),
+              BigText(text: "Recommended"),
               SizedBox(width: Dimensions.width10,),
               Container(margin: const EdgeInsets.only(bottom: 3),child: BigText(text: ".", color: Colors.black26,),),
               SizedBox(width: Dimensions.width10,),
@@ -81,68 +90,76 @@ class _FoodPageBuilderState extends State<FoodPageBuilder> {
         ),
         SizedBox(height: Dimensions.height10,),
         //List of foods
-        ListView.builder(
-            physics: NeverScrollableScrollPhysics(),
-            shrinkWrap: true,
-            itemCount: 20,
-            itemBuilder: (context, index) {
-              return Container(
-                margin: EdgeInsets.only(left: Dimensions.width20, right: Dimensions.width20, bottom: Dimensions.height10),
-                child: Row(
-                  children: [
-                    //image section
-                    Container(
-                      height: Dimensions.listViewSize,
-                      width: Dimensions.listViewSize,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(Dimensions.radius20),
-                        color: Colors.white10,
-                        image: DecorationImage(
-                          image: AssetImage(
-                            "assets/image/food0.png"
-                          ), fit: BoxFit.cover
-                        )
-                      ),
-                    ),
-                    //text Section
-                    Expanded(
-                      child: Container(
-                        height: Dimensions.height100,
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.only(topRight: Radius.circular(Dimensions.radius20), bottomRight: Radius.circular(Dimensions.radius20))
-                        ),
-                        child: Padding(
-                          padding: EdgeInsets.only(left: Dimensions.width10, right: Dimensions.width10),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              BigText(text: "Nutrition Fruit Drink in Lagos", overflow: TextOverflow.ellipsis,),
-                              SizedBox(height: Dimensions.height10,),
-                              SmallText(text: "With Lagos Characteristics"),
-                              SizedBox(height: Dimensions.height10,),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  IconAndTextWidget(icon: Icons.circle_sharp, text: "Normal", iconColor: AppColors.iconColor1,),
-                                  IconAndTextWidget(icon: Icons.location_on_outlined, text: "1.7km", iconColor: AppColors.mainColor),
-                                  IconAndTextWidget(icon: Icons.access_time_filled_rounded, text: "15 mins", iconColor: AppColors.iconColor2)
-                                ],
+        GetBuilder<RecommendedProductsController>(builder: (recommendedProducts) {
+          return recommendedProducts.isLoaded?ListView.builder(
+              physics: NeverScrollableScrollPhysics(),
+              shrinkWrap: true,
+              itemCount: recommendedProducts.recommendedProductList.length,
+              itemBuilder: (context, index,) {
+                return GestureDetector(
+                  onTap: (){
+                    Get.toNamed(RouteHelper.getRecommendedFoods());
+                  },
+                  child: Container(
+                    margin: EdgeInsets.only(left: Dimensions.width20, right: Dimensions.width20, bottom: Dimensions.height10),
+                    child: Row(
+                      children: [
+                        //image section
+                        Container(
+                          height: Dimensions.listViewSize,
+                          width: Dimensions.listViewSize,
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(Dimensions.radius20),
+                              color: Colors.white10,
+                              image: DecorationImage(
+                                  image: NetworkImage(
+                                    AppConstants.BASE_URL+AppConstants.UPLOADS+recommendedProducts.recommendedProductList[index].img!
+                                  ), fit: BoxFit.cover
                               )
-                            ],
                           ),
                         ),
-                      ),
-                    )
-                  ],
-                ),
-              );
+                        //text Section
+                        Expanded(
+                          child: Container(
+                            height: Dimensions.height100,
+                            decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.only(topRight: Radius.circular(Dimensions.radius20), bottomRight: Radius.circular(Dimensions.radius20))
+                            ),
+                            child: Padding(
+                              padding: EdgeInsets.only(left: Dimensions.width10, right: Dimensions.width10),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  BigText(text: recommendedProducts.recommendedProductList[index].name!, overflow: TextOverflow.ellipsis,),
+                                  SizedBox(height: Dimensions.height10,),
+                                  SmallText(text: recommendedProducts.recommendedProductList[index].name!),
+                                  SizedBox(height: Dimensions.height10,),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      IconAndTextWidget(icon: Icons.circle_sharp, text: "Normal", iconColor: AppColors.iconColor1,),
+                                      IconAndTextWidget(icon: Icons.location_on_outlined, text: "1.7km", iconColor: AppColors.mainColor),
+                                      IconAndTextWidget(icon: Icons.access_time_filled_rounded, text: "15 mins", iconColor: AppColors.iconColor2)
+                                    ],
+                                  )
+                                ],
+                              ),
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                );
+              }):CircularProgressIndicator(color: AppColors.mainColor,);
         })
+
       ],
     );
   }
-  Widget _buildPageItem(int index){
+  Widget _buildPageItem(int index, ProductModel popularProduct){
     Matrix4 matrix = new Matrix4.identity();
     if(index==_currentPageValue.floor()){
       var _currScale = 1-(_currentPageValue - index) * (1 - _scaleFactor);
@@ -164,16 +181,21 @@ class _FoodPageBuilderState extends State<FoodPageBuilder> {
       transform: matrix,
       child: Stack(
         children: [
-          Container(
-            height: Dimensions.pageContainer,
-            margin: EdgeInsets.only(left: Dimensions.width10, right: Dimensions.width10),
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(Dimensions.radius30),
-                color: index.isEven?Colors.blue:Color(0xFF9294cc),
-                image: DecorationImage(
-                    image: AssetImage("assets/image/food1.png"),
-                    fit: BoxFit.cover
-                )
+          GestureDetector(
+            onTap: (){
+              Get.toNamed(RouteHelper.getPopularFoods(index));
+            },
+            child: Container(
+              height: Dimensions.pageContainer,
+              margin: EdgeInsets.only(left: Dimensions.width10, right: Dimensions.width10),
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(Dimensions.radius30),
+                  color: index.isEven?Colors.blue:Color(0xFF9294cc),
+                  image: DecorationImage(
+                      image: NetworkImage(AppConstants.BASE_URL+AppConstants.UPLOADS+ popularProduct.img!),
+                      fit: BoxFit.cover
+                  )
+              ),
             ),
           ),
           Align(
@@ -202,7 +224,7 @@ class _FoodPageBuilderState extends State<FoodPageBuilder> {
               ),
               child: Container(
                 padding: EdgeInsets.only(top: Dimensions.height15, left: Dimensions.width15, right: Dimensions.width10),
-                child: AppColumn(text: "Amala",),
+                child: AppColumn(text: popularProduct.name!,),
               ),
             ),
           )
