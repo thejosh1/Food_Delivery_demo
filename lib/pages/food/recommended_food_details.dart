@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:food_delivery_demo/controllers/recommended_products_controller.dart';
 import 'package:food_delivery_demo/routes/routes_helper.dart';
+import 'package:food_delivery_demo/utils/app_constants.dart';
 import 'package:food_delivery_demo/utils/colors.dart';
 import 'package:food_delivery_demo/utils/dimensions.dart';
 import 'package:food_delivery_demo/widgets/app_icons.dart';
@@ -8,10 +10,12 @@ import 'package:food_delivery_demo/widgets/expandable_widget.dart';
 import 'package:get/get.dart';
 
 class RecommendedFoodDetail extends StatelessWidget {
-  const RecommendedFoodDetail({Key? key}) : super(key: key);
+  final int pageId;
+  const RecommendedFoodDetail({Key? key, required this.pageId}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    var product = Get.find<RecommendedProductsController>().recommendedProductList[pageId];
     return Scaffold(
       backgroundColor: Colors.white,
       body: CustomScrollView(
@@ -47,8 +51,9 @@ class RecommendedFoodDetail extends StatelessWidget {
             ),
             expandedHeight: 300,
             flexibleSpace: FlexibleSpaceBar(
-              background: Image.asset(
-                "assets/image/food0.png",
+              background: Image.network(
+                AppConstants.BASE_URL+AppConstants.UPLOADS+product.img!,
+                // "assets/image/food0.png",
                 width: double.maxFinite,
                 fit: BoxFit.cover,
               ),
@@ -59,8 +64,8 @@ class RecommendedFoodDetail extends StatelessWidget {
               children: [
                 Container(
                   margin: EdgeInsets.only(left: Dimensions.width20, right: Dimensions.width20),
-                  child: ExpandableTextWidget(text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Faucibus in ornare quam viverra orci sagittis eu volutpat odio. Ullamcorper malesuada proin libero nunc consequat interdum varius sit. Non pulvinar neque laoreet suspendisse interdum consectetur libero id faucibus. Sem fringilla ut morbi tincidunt augue interdum. At urna condimentum mattis pellentesque id. Volutpat diam ut venenatis tellus. Sed arcu non odio euismod lacinia at. Fringilla est ullamcorper eget nulla facilisi etiam dignissim diam quis. Praesent elementum facilisis leo vel fringilla est. Eros donec ac odio tempor orci dapibus. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Faucibus in ornare quam viverra orci sagittis eu volutpat odio. Ullamcorper malesuada proin libero nunc consequat interdum varius sit. Non pulvinar neque laoreet suspendisse interdum consectetur libero id faucibus. Sem fringilla ut morbi tincidunt augue interdum. At urna condimentum mattis pellentesque id. Volutpat diam ut venenatis tellus. Sed arcu non odio euismod lacinia at. Fringilla est ullamcorper eget nulla facilisi etiam dignissim diam quis. Praesent elementum facilisis leo vel fringilla est. Eros donec ac odio tempor orci dapibus. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Faucibus in ornare quam viverra orci sagittis eu volutpat odio. Ullamcorper malesuada proin libero nunc consequat interdum varius sit. Non pulvinar neque laoreet suspendisse interdum consectetur libero id faucibus. Sem fringilla ut morbi tincidunt augue interdum. At urna condimentum mattis pellentesque id. Volutpat diam ut venenatis tellus. Sed arcu non odio euismod lacinia at. Fringilla est ullamcorper eget nulla facilisi etiam dignissim diam quis. Praesent elementum facilisis leo vel fringilla est. Eros donec ac odio tempor orci dapibus. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Faucibus in ornare quam viverra orci sagittis eu volutpat odio. Ullamcorper malesuada proin libero nunc consequat interdum varius sit. Non pulvinar neque laoreet suspendisse interdum consectetur libero id faucibus. Sem fringilla ut morbi tincidunt augue interdum. At urna condimentum mattis pellentesque id. Volutpat diam ut venenatis tellus. Sed arcu non odio euismod lacinia at. Fringilla est ullamcorper eget nulla facilisi etiam dignissim diam quis. Praesent elementum facilisis leo vel fringilla est. Eros donec ac odio tempor orci dapibus.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. FaucibLorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. FaucibLorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. FaucibLorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. FaucibLorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. FaucibLorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. FaucibLorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. FaucibvLorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. FaucibvLorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. FaucibLorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. FaucibLorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. FaucibLorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. FaucibLorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. FaucibLorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. FaucibLorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. FaucibLorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. FaucibLorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Faucib")),
-              ],
+                  child: ExpandableTextWidget(text: product.description!,)
+              ],//ExpandableTextWidget
             )
           )
         ],

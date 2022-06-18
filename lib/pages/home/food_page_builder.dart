@@ -46,7 +46,6 @@ class _FoodPageBuilderState extends State<FoodPageBuilder> {
 
   @override
   Widget build(BuildContext context) {
-    print("The Screen Width is " + MediaQuery.of(context).size.width.toString());
     return Column(
       children: [
         GetBuilder<PopularProductsController>(builder: (popularProducts) {
@@ -89,6 +88,7 @@ class _FoodPageBuilderState extends State<FoodPageBuilder> {
           ),
         ),
         SizedBox(height: Dimensions.height10,),
+        //recommended foods
         //List of foods
         GetBuilder<RecommendedProductsController>(builder: (recommendedProducts) {
           return recommendedProducts.isLoaded?ListView.builder(
@@ -98,7 +98,7 @@ class _FoodPageBuilderState extends State<FoodPageBuilder> {
               itemBuilder: (context, index,) {
                 return GestureDetector(
                   onTap: (){
-                    Get.toNamed(RouteHelper.getRecommendedFoods());
+                    Get.toNamed(RouteHelper.getRecommendedFoods(index));
                   },
                   child: Container(
                     margin: EdgeInsets.only(left: Dimensions.width20, right: Dimensions.width20, bottom: Dimensions.height10),
