@@ -44,7 +44,7 @@ class RecommendedFoodDetail extends StatelessWidget {
                   color: Colors.white,
                   borderRadius: BorderRadius.only(topRight: Radius.circular(Dimensions.radius20), topLeft: Radius.circular(Dimensions.radius20))
                 ),
-                child: Center(child: BigText(text: "Amala Delicacy", size: Dimensions.font26,)),
+                child: Center(child: BigText(text: product.name!, size: Dimensions.font26,)),
                 width: double.maxFinite,
                 padding: EdgeInsets.only(top: 5, bottom: 10),
               ),
@@ -85,7 +85,7 @@ class RecommendedFoodDetail extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 AppIcons(icon: Icons.remove, backgroundColor: AppColors.mainColor, iconcolor: Colors.white, iconSize: Dimensions.iconSize24,),
-                BigText(text: " \$12.88 " + " X " + " 0 ", color: AppColors.mainBlackColor, size: Dimensions.font26,),
+                BigText(text: " \$ ${product.price!} X 0 ", color: AppColors.mainBlackColor, size: Dimensions.font26,),
                 AppIcons(icon: Icons.add, backgroundColor: AppColors.mainColor, iconcolor: Colors.white, iconSize: Dimensions.iconSize24,)
               ],
             ),
