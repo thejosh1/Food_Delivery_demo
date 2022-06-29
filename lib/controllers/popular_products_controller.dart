@@ -1,3 +1,5 @@
+import 'dart:html';
+
 import 'package:flutter/material.dart';
 import 'package:food_delivery_demo/controllers/cart_controller.dart';
 import 'package:food_delivery_demo/data/repositories/popular_products_repo.dart';
@@ -41,29 +43,43 @@ class PopularProductsController extends GetxController {
   }
 
   int checkQuantity(int quantity) {
-    if(quantity < 0) {
+    if(itemsInCart+quantity < 0) {
+      Get.snackbar("Items Count", "You can't reduce more",
+        backgroundColor: AppColors.mainColor,
+        colorText: Colors.white
+      );
       return 0;
-    } else if (quantity > 20){
+    } else if (itemsInCart+quantity > 20){
+      Get.snackbar("Items Count", "You can't add more",
+          backgroundColor: AppColors.mainColor,
+          colorText: Colors.white
+      );
       return 20;
     } else {
       return quantity;
     }
   }
 
-  void initProduct(CartController cart) {
+  void initProduct(ProductModel product, CartController cart) {
     _quantity = 0;
     _itemsInCart = 0;
     _cart = cart;
+    var _exits = false;
+    _exits = _cart.existsInCart(product);
+    print("exists or not" + _exits.toString());
+
+    if(_exits) {
+      _itemsInCart = _cart.getQuantity(product);
+    }
+    print("quantity in cart " + _itemsInCart.toString());
   }
 
   void addItem(ProductModel product) {
-    if(quantity>0){
-      _cart.addItem(product, _quantity);
-    } else {
-      Get.snackbar("Cart", "You haven't added any item to cart",
-        backgroundColor: AppColors.mainColor,
-        colorText: Colors.white
-      );
-    }
+    _cart.addItem(product, _quantity);
+    _quantity = 0;
+    _itemsInCart = _cart.getQuantity(product);
+    _cart.items.forEach((key, value) {
+      print("the id is " + value.id.toString() + " the quantity is " + value.quantity.toString());
+    });
   }
 }
