@@ -1,6 +1,8 @@
+import 'package:flutter/material.dart';
 import 'package:food_delivery_demo/controllers/cart_controller.dart';
 import 'package:food_delivery_demo/data/repositories/popular_products_repo.dart';
 import 'package:food_delivery_demo/model/popular_product_model.dart';
+import 'package:food_delivery_demo/utils/colors.dart';
 import 'package:get/get.dart';
 
 class PopularProductsController extends GetxController {
@@ -55,6 +57,13 @@ class PopularProductsController extends GetxController {
   }
 
   void addItem(ProductModel product) {
-    _cart.addItem(product, _quantity);
+    if(quantity>0){
+      _cart.addItem(product, _quantity);
+    } else {
+      Get.snackbar("Cart", "You haven't added any item to cart",
+        backgroundColor: AppColors.mainColor,
+        colorText: Colors.white
+      );
+    }
   }
 }
