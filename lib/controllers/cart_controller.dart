@@ -1,7 +1,4 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
-import 'package:food_delivery_demo/controllers/cart_controller.dart';
 import 'package:food_delivery_demo/data/repositories/cart_repo.dart';
 import 'package:food_delivery_demo/model/cart_model.dart';
 import 'package:food_delivery_demo/model/popular_product_model.dart';
@@ -78,8 +75,14 @@ class CartController extends GetxController {
   int get totalItems {
     var totalQuantity = 0;
     _items.forEach((key, value) {
-      value.quantity;
+      totalQuantity += value.quantity!;
     });
     return totalQuantity;
+  }
+
+  List<CartModel> get getItems {
+   return _items.entries.map((e) {
+     return e.value;
+   }).toList();
   }
 }

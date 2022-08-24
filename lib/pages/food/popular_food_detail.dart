@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:food_delivery_demo/controllers/cart_controller.dart';
 import 'package:food_delivery_demo/controllers/popular_products_controller.dart';
+import 'package:food_delivery_demo/pages/cart/cart_page.dart';
 import 'package:food_delivery_demo/pages/home/main_food_page.dart';
 import 'package:food_delivery_demo/utils/app_constants.dart';
 import 'package:food_delivery_demo/utils/colors.dart';
@@ -48,7 +49,37 @@ class PopularFoodDetail extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   GestureDetector(onTap: (){Get.to(()=>const MainFoodPage());}, child: const AppIcons(icon: Icons.arrow_back_ios)),
-                  const AppIcons(icon: Icons.shopping_cart)
+                  GetBuilder<PopularProductsController>(builder: (controller) {
+                    return Stack(
+                      children: [
+                        GestureDetector(
+                            onTap:() {
+                              Get.to(()=>const CartPage());
+                            },
+                            child: const AppIcons(icon: Icons.shopping_cart)),
+                        Get.find<PopularProductsController>().totalItems>=1?
+                        Positioned(
+                          top:0,
+                          right:0,
+                          child: AppIcons(
+                            icon: Icons.circle,
+                            iconcolor: Colors.transparent,
+                            size: 20,
+                            backgroundColor: AppColors.mainColor,)
+                        ) :Container(),
+                        Get.find<PopularProductsController>().totalItems>=1?
+                        Positioned(
+                            top:5,
+                            right:6,
+                            bottom: 5,
+                            child: BigText(text: Get.find<PopularProductsController>().totalItems.toString(),
+                            size: 12, color: Colors.white ,
+                            )
+                        )
+                            :Container()
+                      ],
+                    );
+                  })
                 ],
               )
           ),
@@ -117,17 +148,18 @@ class PopularFoodDetail extends StatelessWidget {
                   ],
                 ),
               ),
-              Container(
-                padding: EdgeInsets.only(top: Dimensions.height20, bottom: Dimensions.height20, left: Dimensions.width20, right: Dimensions.width20),
-                decoration: BoxDecoration(
-                  color: AppColors.mainColor,
-                  borderRadius: BorderRadius.circular(Dimensions.radius20),
+              GestureDetector(
+                onTap: () {
+                  popularProduct.addItem(product);
+                },
+                child: Container(
+                  padding: EdgeInsets.only(top: Dimensions.height20, bottom: Dimensions.height20, left: Dimensions.width20, right: Dimensions.width20),
+                  decoration: BoxDecoration(
+                    color: AppColors.mainColor,
+                    borderRadius: BorderRadius.circular(Dimensions.radius20),
+                  ),
+                  child: BigText(text: "\$ ${product.price!} | Add to cart", color: Colors.white,),
                 ),
-                child: GestureDetector(
-                    onTap: (){
-                      popularProduct.addItem(product);
-                    },
-                    child: BigText(text: "\$ ${product.price!} | Add to cart", color: Colors.white,)),
               )
             ],
           ),
