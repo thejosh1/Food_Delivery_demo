@@ -37,30 +37,33 @@ class RecommendedFoodDetail extends StatelessWidget {
                   }, child: const AppIcons(icon: Icons.clear,)),
                   //AppIcons(icon: Icons.shopping_cart_outlined)
                   GetBuilder<PopularProductsController>(builder: (controller) {
-                    return Stack(
-                      children: [
-                        GestureDetector(
-                            onTap: () {
-                              Get.to(()=>CartPage());
-                            },
-                            child: const AppIcons(icon: Icons.shopping_cart)),
-                        Get.find<PopularProductsController>().totalItems>=1?
-                        Positioned(
-                            top:0,
-                            right:0,
-                            child: AppIcons(icon: Icons.circle, iconcolor: Colors.transparent, size: 20, backgroundColor: AppColors.mainColor,))
-                            :Container(),
-                        Get.find<PopularProductsController>().totalItems>=1?
-                        Positioned(
-                            top:5,
-                            right:6,
-                            bottom: 5,
-                            child: BigText(text: Get.find<PopularProductsController>().totalItems.toString(),
-                              size: 12, color: Colors.white ,
-                            )
-                        )
-                            :Container()
-                      ],
+                    return GestureDetector(
+                      onTap: () {
+                        if(controller.totalItems>=1) {
+                          Get.toNamed(RouteHelper.getCartPage());
+                        }
+                      },
+                      child: Stack(
+                        children: [
+                          const AppIcons(icon: Icons.shopping_cart),
+                          Get.find<PopularProductsController>().totalItems>=1?
+                          Positioned(
+                              top:0,
+                              right:0,
+                              child: AppIcons(icon: Icons.circle, iconcolor: Colors.transparent, size: 20, backgroundColor: AppColors.mainColor,))
+                              :Container(),
+                          Get.find<PopularProductsController>().totalItems>=1?
+                          Positioned(
+                              top:5,
+                              right:6,
+                              bottom: 5,
+                              child: BigText(text: Get.find<PopularProductsController>().totalItems.toString(),
+                                size: 12, color: Colors.white ,
+                              )
+                          )
+                              :Container()
+                        ],
+                      ),
                     );
                   })
                 ],
