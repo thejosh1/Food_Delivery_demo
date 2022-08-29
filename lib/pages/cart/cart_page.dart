@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:food_delivery_demo/controllers/cart_controller.dart';
+import 'package:food_delivery_demo/controllers/popular_products_controller.dart';
+import 'package:food_delivery_demo/controllers/recommended_products_controller.dart';
 import 'package:food_delivery_demo/pages/home/main_food_page.dart';
 import 'package:food_delivery_demo/routes/routes_helper.dart';
 import 'package:food_delivery_demo/utils/app_constants.dart';
@@ -72,17 +74,32 @@ class CartPage extends StatelessWidget {
                           width: double.maxFinite,
                           child: Row(
                             children: <Widget>[
-                              Container(
-                                margin: EdgeInsets.only(bottom: Dimensions.height10),
-                                height: Dimensions.height20*5,
-                                width: Dimensions.width20*5,
-                                decoration: BoxDecoration(
-                                    image: DecorationImage(
-                                        image: NetworkImage(AppConstants.BASE_URL+AppConstants.UPLOADS+cartController.getItems[index].img!),
-                                        fit: BoxFit.cover
-                                    ),
-                                    borderRadius: BorderRadius.circular(Dimensions.radius20),
-                                    color: Colors.white
+                              GestureDetector(
+                                onTap: () {
+                                  var popularProductIndex = Get.find<PopularProductsController>()
+                                      .popularProductList
+                                      .indexOf(_cartList[index].product!);
+                                  if(popularProductIndex >= 0) {
+                                    Get.toNamed(RouteHelper.getPopularFoods(popularProductIndex));
+                                  } else {
+                                    var recommendeedProductIndex = Get.find<RecommendedProductsController>()
+                                        .recommendedProductList
+                                        .indexOf(_cartList[index].product!);
+                                    Get.toNamed(RouteHelper.getRecommendedFoods(recommendeedProductIndex));
+                                  }
+                                },
+                                child: Container(
+                                  margin: EdgeInsets.only(bottom: Dimensions.height10),
+                                  height: Dimensions.height20*5,
+                                  width: Dimensions.width20*5,
+                                  decoration: BoxDecoration(
+                                      image: DecorationImage(
+                                          image: NetworkImage(AppConstants.BASE_URL+AppConstants.UPLOADS+cartController.getItems[index].img!),
+                                          fit: BoxFit.cover
+                                      ),
+                                      borderRadius: BorderRadius.circular(Dimensions.radius20),
+                                      color: Colors.white
+                                  ),
                                 ),
                               ),
                               SizedBox(width: Dimensions.width10,),
@@ -110,6 +127,7 @@ class CartPage extends StatelessWidget {
                                                   GestureDetector(
                                                       onTap: () {
                                                         cartController.addItem(_cartList[index].product!, -1);
+                                                        print("being tapped");
                                                       },
                                                       child: Icon(Icons.remove, color: AppColors.signColor,)),
                                                   SizedBox(width: Dimensions.width10/2,),
@@ -118,6 +136,7 @@ class CartPage extends StatelessWidget {
                                                   GestureDetector(
                                                       onTap: (){
                                                         cartController.addItem(_cartList[index].product!, 1);
+                                                        print("being tapped");
                                                       },
                                                       child: Icon(Icons.add, color: AppColors.signColor,))
                                                 ],

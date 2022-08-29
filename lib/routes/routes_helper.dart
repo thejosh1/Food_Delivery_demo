@@ -33,7 +33,7 @@ class RouteHelper{
     ),
 
     GetPage(name: CARTPAGE, page: (){
-      return CartPage();
+      return const CartPage();
     },
       transition: Transition.fadeIn
     ),

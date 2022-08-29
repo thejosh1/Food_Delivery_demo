@@ -49,7 +49,11 @@ class PopularFoodDetail extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  GestureDetector(onTap: (){Get.to(()=>const MainFoodPage());}, child: const AppIcons(icon: Icons.arrow_back_ios)),
+                  GestureDetector(
+                      onTap: (){
+                        Get.toNamed(RouteHelper.getInitial());
+                        },
+                      child: const AppIcons(icon: Icons.arrow_back_ios)),
                   GetBuilder<PopularProductsController>(builder: (controller) {
                     return GestureDetector(
                       onTap: () {

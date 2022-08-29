@@ -46,18 +46,18 @@ class RecommendedFoodDetail extends StatelessWidget {
                       child: Stack(
                         children: [
                           const AppIcons(icon: Icons.shopping_cart),
-                          Get.find<PopularProductsController>().totalItems>=1?
+                          controller.totalItems>=1?
                           Positioned(
                               top:0,
                               right:0,
                               child: AppIcons(icon: Icons.circle, iconcolor: Colors.transparent, size: 20, backgroundColor: AppColors.mainColor,))
                               :Container(),
-                          Get.find<PopularProductsController>().totalItems>=1?
+                          controller.totalItems>=1?
                           Positioned(
                               top:5,
                               right:6,
                               bottom: 5,
-                              child: BigText(text: Get.find<PopularProductsController>().totalItems.toString(),
+                              child: BigText(text: controller.totalItems.toString(),
                                 size: 12, color: Colors.white ,
                               )
                           )

@@ -50,7 +50,7 @@ class PopularProductsController extends GetxController {
         colorText: Colors.white
       );
       if(_itemsInCart>0) {
-        _quantity = - _itemsInCart;
+        _quantity = -_itemsInCart;
         return _quantity;
       }
       return 0;
@@ -80,14 +80,21 @@ class PopularProductsController extends GetxController {
   }
 
   void addItem(ProductModel product) {
-    _cart.addItem(product, _quantity);
-    _quantity = 0;
-    _itemsInCart = _cart.getQuantity(product);
-    _cart.items.forEach((key, value) {
-      print("the id is " + value.id.toString() + " the quantity is " + value.quantity.toString());
+    if(_quantity > 0) {
+      _cart.addItem(product, _quantity);
+      _quantity = 0;
+      _itemsInCart = _cart.getQuantity(product);
+      _cart.items.forEach((key, value) {
+        print("the id is " + value.id.toString() + " the quantity is " + value.quantity.toString());
+        update();
+      });
+    } else {
+      Get.snackbar("Cart", "How many do you want to add",
+          backgroundColor: AppColors.mainColor,
+          colorText: Colors.white
+      );
+    }
 
-    });
-    update();
   }
 
   int get totalItems {
