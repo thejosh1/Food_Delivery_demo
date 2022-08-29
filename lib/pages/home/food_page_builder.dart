@@ -3,7 +3,6 @@ import 'package:dots_indicator/dots_indicator.dart';
 import 'package:food_delivery_demo/controllers/popular_products_controller.dart';
 import 'package:food_delivery_demo/controllers/recommended_products_controller.dart';
 import 'package:food_delivery_demo/model/popular_product_model.dart';
-import 'package:food_delivery_demo/pages/food/popular_food_detail.dart';
 import 'package:food_delivery_demo/routes/routes_helper.dart';
 import 'package:food_delivery_demo/utils/app_constants.dart';
 import 'package:food_delivery_demo/utils/colors.dart';
@@ -40,6 +39,7 @@ class _FoodPageBuilderState extends State<FoodPageBuilder> {
 
     @override
     void dispose() {
+      super.dispose();
       pageController.dispose();
     }
   }
@@ -98,7 +98,7 @@ class _FoodPageBuilderState extends State<FoodPageBuilder> {
               itemBuilder: (context, index,) {
                 return GestureDetector(
                   onTap: (){
-                    Get.toNamed(RouteHelper.getRecommendedFoods(index));
+                    Get.toNamed(RouteHelper.getRecommendedFoods(index, "home"));
                   },
                   child: Container(
                     margin: EdgeInsets.only(left: Dimensions.width20, right: Dimensions.width20, bottom: Dimensions.height10),
@@ -183,7 +183,7 @@ class _FoodPageBuilderState extends State<FoodPageBuilder> {
         children: [
           GestureDetector(
             onTap: (){
-              Get.toNamed(RouteHelper.getPopularFoods(index));
+              Get.toNamed(RouteHelper.getPopularFoods(index, "home"));
             },
             child: Container(
               height: Dimensions.pageContainer,

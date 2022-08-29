@@ -53,4 +53,7 @@ class Dimensions{
 
   //textHeight
   static double textheight100 = screenHeight/7.3;
+
+  //splash screen dimensions
+  static double splashimg = screenHeight/2.93;
 }
