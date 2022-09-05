@@ -13,6 +13,7 @@ import 'package:food_delivery_demo/pages/food/recommended_food_details.dart';
 import 'helper/dependencies.dart' as dep;
 
 Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
   await dep.init();
   runApp(const MyApp());
 }
