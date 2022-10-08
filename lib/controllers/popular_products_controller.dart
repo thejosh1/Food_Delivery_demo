@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:food_delivery_demo/controllers/cart_controller.dart';
 import 'package:food_delivery_demo/data/repositories/popular_products_repo.dart';
 import 'package:food_delivery_demo/model/cart_model.dart';
-import 'package:food_delivery_demo/model/popular_product_model.dart';
+import 'package:food_delivery_demo/model/product_model.dart';
 import 'package:food_delivery_demo/utils/colors.dart';
 import 'package:get/get.dart';
 

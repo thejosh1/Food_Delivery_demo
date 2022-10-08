@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:food_delivery_demo/data/repositories/cart_repo.dart';
 import 'package:food_delivery_demo/model/cart_model.dart';
-import 'package:food_delivery_demo/model/popular_product_model.dart';
+import 'package:food_delivery_demo/model/product_model.dart';
 import 'package:food_delivery_demo/utils/colors.dart';
 import 'package:get/get.dart';
 
@@ -11,6 +11,8 @@ class CartController extends GetxController {
   Map<int, CartModel> _items= {};
 
   Map<int, CartModel> get items=> _items;
+
+  List<CartModel> storageItems = [];
 
   void addItem(ProductModel product, int quantity){
     var totalQuantity = 0;
@@ -98,4 +100,17 @@ class CartController extends GetxController {
    }).toList();
   }
 
-}
+  List<CartModel> getCartdata() {
+    setCart = cartRepo.getCartList();
+
+    return storageItems;
+  }
+
+  set setCart(List<CartModel> item) {
+    storageItems = item;
+    print("Number of items is "+storageItems.length.toString());
+    for(int i = 0; i<storageItems.length; i++) {
+      _items.putIfAbsent(storageItems[i].product!.id!, () => storageItems[i]);
+    }
+  }
+} 

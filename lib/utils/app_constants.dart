@@ -1,5 +1,5 @@
 class AppConstants {
-  static const String APP_NAME = "Food_Delevery_Demo";
+  static const String APP_NAME = "Food_Delivery_Demo";
   static const int APP_VERSION = 1;
 
   static const String BASE_URL = "http://mvs.bslmeiyu.com";
@@ -8,4 +8,6 @@ class AppConstants {
   static const String UPLOADS = "/uploads/";
 
   static const String TOKEN = "foodtoken";
+  static const String CartKey = "Cart-list";
+
 }
