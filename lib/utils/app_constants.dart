@@ -9,5 +9,6 @@ class AppConstants {
 
   static const String TOKEN = "foodtoken";
   static const String CartKey = "Cart-list";
+  static const String cartHistoryKey = "Cart-History-List";
 
 }
