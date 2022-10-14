@@ -1,18 +1,24 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:food_delivery_demo/controllers/cart_controller.dart';
+import 'package:food_delivery_demo/model/cart_model.dart';
+import 'package:food_delivery_demo/routes/routes_helper.dart';
 import 'package:food_delivery_demo/utils/app_constants.dart';
 import 'package:food_delivery_demo/utils/colors.dart';
 import 'package:food_delivery_demo/utils/dimensions.dart';
 import 'package:food_delivery_demo/widgets/app_icons.dart';
 import 'package:food_delivery_demo/widgets/big_text.dart';
+import 'package:food_delivery_demo/widgets/small_text.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 
 class CartHistoryPage extends StatelessWidget {
   const CartHistoryPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    var getCartHistoryList = Get.find<CartController>().getCartHistoryList();
+    var getCartHistoryList = Get.find<CartController>().getCartHistoryList().reversed.toList();
     Map<String, int> cartItemsPerOrder = {};
 
     for(int i=0; i<getCartHistoryList.length; i++) {
@@ -25,6 +31,10 @@ class CartHistoryPage extends StatelessWidget {
 
     List<int> cartItemsPerOrderToList() {
       return cartItemsPerOrder.entries.map((e) => e.value).toList();
+    }
+
+    List<String> cartItemsTimeToList() {
+      return cartItemsPerOrder.entries.map((e) => e.key).toList();
     }
 
     List<int> itemsPerOrder = cartItemsPerOrderToList();
@@ -58,9 +68,16 @@ class CartHistoryPage extends StatelessWidget {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
-                          BigText(text: "10/10/2022"),
+                          ((){
+                            DateTime parseDate = DateFormat('yyyy-MM-dd HH:mm:ss').parse(getCartHistoryList[listCounter].time!);
+                            DateTime inputDate = DateTime.parse(parseDate.toString());
+                            DateFormat outputFormat = DateFormat('MM/dd/yyyy HH:mm a');
+                            String outputDate = outputFormat.format(inputDate);
+                            return BigText(text: outputDate);
+                          }()),
                           SizedBox(height: Dimensions.height10),
                           Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: <Widget>[
                               Wrap(
                                 direction: Axis.horizontal,
@@ -68,19 +85,54 @@ class CartHistoryPage extends StatelessWidget {
                                   if(listCounter<itemsPerOrder[i]) {
                                     listCounter++;
                                   }
-                                  return Container(
+                                  return index<=2?Container(
                                     height: Dimensions.height100-20,
                                     width: Dimensions.width20*4,
+                                    margin: EdgeInsets.only(right: Dimensions.width10/2),
                                     decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(Dimensions.width15/2),
-                                      image: DecorationImage(
-                                        image: NetworkImage(
-                                          AppConstants.BASE_URL+AppConstants.UPLOADS+getCartHistoryList[listCounter-1].img!
-                                        ), fit: BoxFit.cover
-                                      )
+                                        borderRadius: BorderRadius.circular(Dimensions.width15/2),
+                                        image: DecorationImage(
+                                            image: NetworkImage(
+                                                AppConstants.BASE_URL+AppConstants.UPLOADS+getCartHistoryList[listCounter-1].img!
+                                            ), fit: BoxFit.cover
+                                        )
                                     ),
-                                  );
+                                  ):Container();
                                 })
+                              ),
+                              Container(
+                                height: Dimensions.height100-20,
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                  crossAxisAlignment: CrossAxisAlignment.end,
+                                  children: [
+                                    SmallText(text:"Total items"),
+                                    BigText(text: itemsPerOrder[i].toString()+" Items", color: AppColors.titleColor,),
+                                    GestureDetector(
+                                      onTap: () {
+                                        var orderTime = cartItemsTimeToList();
+                                        Map<int, CartModel> moreOrder = {};
+                                        for(int j=0; j<getCartHistoryList.length; j++) {
+                                          if(getCartHistoryList[j].time==orderTime[i]) {
+                                            moreOrder.putIfAbsent(getCartHistoryList[j].id!, () =>
+                                            CartModel.fromJson(jsonDecode(jsonEncode(getCartHistoryList[j]))));
+                                          }
+                                        }
+                                        Get.find<CartController>().setItems = moreOrder;
+                                        Get.find<CartController>().addToCartList();
+                                        Get.toNamed(RouteHelper.getCartPage() );
+                                      },
+                                      child: Container(
+                                        padding: EdgeInsets.symmetric(horizontal: Dimensions.width10, vertical: Dimensions.height10/2),
+                                        decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.circular(Dimensions.radius15/3),
+                                          border: Border.all(color: AppColors.mainColor, width: 1)
+                                        ),
+                                        child: SmallText(text: "One more", color: AppColors.mainColor,),
+                                      ),
+                                    )
+                                  ],
+                                ),
                               )
                             ],
                           )
