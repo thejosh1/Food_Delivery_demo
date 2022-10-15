@@ -112,7 +112,7 @@ class _FoodPageBuilderState extends State<FoodPageBuilder> {
                               borderRadius: BorderRadius.circular(Dimensions.radius20),
                               color: Colors.white10,
                               image: DecorationImage(
-                                  image: NetworkImage(
+                                  image: NetworkImage (
                                     AppConstants.BASE_URL+AppConstants.UPLOADS+recommendedProducts.recommendedProductList[index].img!
                                   ), fit: BoxFit.cover
                               )

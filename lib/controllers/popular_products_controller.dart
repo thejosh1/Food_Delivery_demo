@@ -28,7 +28,7 @@ class PopularProductsController extends GetxController {
       _isLoaded = true;
       update();
     } else {
-      print("Error occurred and the error is "+res.body);
+      print("Error occurred and the error is "+res.body.toString());
     }
 
   }

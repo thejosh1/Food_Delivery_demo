@@ -13,8 +13,8 @@ class CartRepo{
   List<String> cartHistoryList = [];
   void addToCarList(List<CartModel> cartList) {
     //convert object to string because of sharedpreferences
-    // sharedPreferences.remove(AppConstants.CartKey);
-    // sharedPreferences.remove(AppConstants.cartHistoryKey);
+    //sharedPreferences.remove(AppConstants.CartKey);
+    //sharedPreferences.remove(AppConstants.cartHistoryKey);
     var time = DateTime.now().toString();
     cart = [];
 
