@@ -17,11 +17,30 @@ class ApiClient extends GetConnect implements GetxService {
     };
   }
 
+  void updateHeader(String token) {
+    _mainHeaders = {
+      'Content-type':'application/json; charset=UTF-8',
+      'Authorization':'Bearer $token'
+    };
+  }
+
   Future<Response> getData(String uri,) async {
     try{
       Response res = await get(uri);
       return res;
     } catch(e) {
+      return Response(statusCode: 1, statusText: e.toString());
+    }
+  }
+
+  Future<Response> postData(String uri, dynamic body) async {
+    print(body.toString());
+    try {
+      Response res = await post(uri, body, headers: _mainHeaders);
+      print(res.toString());
+      return res;
+    } catch(e) {
+      print(e.toString());
       return Response(statusCode: 1, statusText: e.toString());
     }
   }
