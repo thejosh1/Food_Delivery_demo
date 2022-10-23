@@ -10,8 +10,11 @@ class AppConstants {
 
   //auth api endpoints
   static const String REGISTRATION_URI = "/api/v1/auth/register";
+  static const String LOGIN_URI = "/api/v1/auth/login";
 
   static const String TOKEN = "foodtoken";
+  static const String PHONE = "";
+  static const String PASSWORD = "";
   static const String CartKey = "Cart-list";
   static const String cartHistoryKey = "Cart-History-List";
 

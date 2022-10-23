@@ -85,7 +85,7 @@ class SignUpPage extends StatelessWidget {
               AppTextField(textEditingController: _emailController, hintText: "Email", iconData: Icons.email, color: AppColors.yellowColor),
               SizedBox(height: Dimensions.height20,),
               //password
-              AppTextField(textEditingController: _passwordController, hintText: "password", iconData: Icons.password_sharp, color: AppColors.yellowColor),
+              AppTextField(textEditingController: _passwordController, hintText: "password", iconData: Icons.password_sharp, color: AppColors.yellowColor, isObscure: true,),
               SizedBox(height: Dimensions.height20,),
               //phone number
               AppTextField(textEditingController: _phoneNumberController, hintText: "Phone Number", iconData: Icons.phone_android_outlined, color: AppColors.yellowColor),
