@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:food_delivery_demo/controllers/auth_controller.dart';
+import 'package:food_delivery_demo/controllers/cart_controller.dart';
+import 'package:food_delivery_demo/routes/routes_helper.dart';
 import 'package:food_delivery_demo/utils/colors.dart';
 import 'package:food_delivery_demo/utils/dimensions.dart';
 import 'package:food_delivery_demo/widgets/account_widget.dart';
@@ -88,7 +91,27 @@ class AccountPage extends StatelessWidget {
                           backgroundColor: Colors.redAccent,
                           size: Dimensions.height10*5,
                         ),
-                        bigText: BigText(text: "Joshua",)
+                        bigText: BigText(text: "Message",)
+                    ),
+                    SizedBox(height: Dimensions.height10/2,),
+                    GestureDetector(
+                      onTap: () {
+                        if(Get.find<AuthController>().isLoggedIn()) {
+                          Get.find<AuthController>().loggedOut();
+                          Get.find<CartController>().clear();
+                          Get.find<CartController>().clearCartHistory();
+                          Get.offAllNamed(RouteHelper.INITIAL);
+                        }
+                      },
+                      child: AccountWidget(
+                          appIcons: AppIcons(icon: Icons.logout,
+                            iconcolor: Colors.white,
+                            iconSize: Dimensions.height10*5/2,
+                            backgroundColor: Colors.redAccent,
+                            size: Dimensions.height10*5,
+                          ),
+                          bigText: BigText(text: "Logout",)
+                      ),
                     ),
                     SizedBox(height: Dimensions.height10/2,)
                   ],

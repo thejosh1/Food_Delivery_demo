@@ -1,3 +1,4 @@
+import 'package:food_delivery_demo/pages/auth/login_page.dart';
 import 'package:food_delivery_demo/pages/cart/cart_page.dart';
 import 'package:food_delivery_demo/pages/food/popular_food_detail.dart';
 import 'package:food_delivery_demo/pages/food/recommended_food_details.dart';
@@ -12,17 +13,22 @@ class RouteHelper{
   static const POPULARFOODS = "/popular-foods";
   static const RECOMMENDEDFOODS = "/recommended-foods";
   static const CARTPAGE = "/cart-page";
+  static const LOGINPAGE = "/login-page";
 
   static String getSplashScreen() => "$SPLASHSCREEN";
   static String getInitial() => "$INITIAL";
   static String getPopularFoods(int pageId, String page) => "$POPULARFOODS?pageId=$pageId&page=$page";
   static String getRecommendedFoods(int pageId, String page) => "$RECOMMENDEDFOODS?pageId=$pageId&page=$page";
   static String getCartPage() => "$CARTPAGE";
+  static String getLoginPage() => "$LoginPage";
 
   //list of routes to pages
   static List<GetPage> ROUTES = [
     GetPage(name: SPLASHSCREEN, page: ()=>const SplashScreen()),
     GetPage(name: INITIAL, page: ()=>const HomePage()),
+    GetPage(name: LOGINPAGE, page: () {
+      return const LoginPage();
+    }, transition: Transition.fade),
     GetPage(name: POPULARFOODS, page: (){
       var pageId = Get.parameters['pageId'];
       var page = Get.parameters["page"];

@@ -37,7 +37,6 @@ class AuthController extends GetxController implements GetxService {
     late ResponseModel responseModel;
     if(res.statusCode==200) {
       print("Back end token");
-      print("tapped");
       authRepo.saveUserToken(res.body["token"]);
       print(res.body["token"].toString());
       responseModel = ResponseModel(true, res.body["token"]);
@@ -52,5 +51,13 @@ class AuthController extends GetxController implements GetxService {
 
   void saveUserData(String phonenumber, String password) {
     authRepo.saveUserData(phonenumber, password);
+  }
+
+  bool isLoggedIn() {
+    return authRepo.isLoggedIn();
+  }
+
+  bool loggedOut() {
+    return authRepo.logOut();
   }
 }

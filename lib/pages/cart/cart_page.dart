@@ -12,6 +12,8 @@ import 'package:food_delivery_demo/widgets/big_text.dart';
 import 'package:food_delivery_demo/widgets/small_text.dart';
 import 'package:get/get.dart';
 
+import '../../controllers/auth_controller.dart';
+
 class CartPage extends StatelessWidget {
   const CartPage({Key? key}) : super(key: key);
 
@@ -193,8 +195,14 @@ class CartPage extends StatelessWidget {
               ),
               GestureDetector(
                 onTap: () {
-                  //popularProduct.addItem(product);
-                  cartController.addtoCartHistoryList();
+                  if(Get.find<AuthController>().isLoggedIn()) {
+                    //popularProduct.addItem(product);
+                    cartController.addtoCartHistoryList();
+
+                  } else {
+                    Get.toNamed(RouteHelper.LOGINPAGE);
+                  }
+
                 },
                 child: Container(
                   padding: EdgeInsets.only(top: Dimensions.height20, bottom: Dimensions.height20, left: Dimensions.width20, right: Dimensions.width20),
