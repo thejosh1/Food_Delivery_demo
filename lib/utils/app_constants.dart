@@ -8,9 +8,10 @@ class AppConstants {
   //static const String DRINKS_URI = "/api/v1/products/drinks";
   static const String UPLOADS = "/uploads/";
 
-  //auth api endpoints
+  //user and auth api endpoints
   static const String REGISTRATION_URI = "/api/v1/auth/register";
   static const String LOGIN_URI = "/api/v1/auth/login";
+  static const String USER_INFO = "/api/v1/customer/info";
 
   static const String TOKEN = "";
   static const String PHONE = "";

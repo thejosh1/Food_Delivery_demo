@@ -11,6 +11,8 @@ import 'package:food_delivery_demo/widgets/app_text_field.dart';
 import 'package:food_delivery_demo/widgets/big_text.dart';
 import 'package:get/get.dart';
 
+import '../../routes/routes_helper.dart';
+
 class SignUpPage extends StatelessWidget {
   const SignUpPage({Key? key}) : super(key: key);
 
@@ -50,7 +52,7 @@ class SignUpPage extends StatelessWidget {
             password: password,);
         authController.registration(signUpModel).then((status) {
           if(status.isSuccess) {
-            print("successful");
+            Get.offNamed(RouteHelper.INITIAL);
           } else {
             ShowCustomSnackBar(status.message, title: "Error");
           }
