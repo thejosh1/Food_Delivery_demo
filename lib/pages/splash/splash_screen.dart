@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:food_delivery_demo/controllers/popular_products_controller.dart';
 import 'package:food_delivery_demo/controllers/recommended_products_controller.dart';

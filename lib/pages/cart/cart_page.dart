@@ -13,6 +13,7 @@ import 'package:food_delivery_demo/widgets/small_text.dart';
 import 'package:get/get.dart';
 
 import '../../controllers/auth_controller.dart';
+import '../../controllers/location_controller.dart';
 
 class CartPage extends StatelessWidget {
   const CartPage({Key? key}) : super(key: key);
@@ -198,6 +199,9 @@ class CartPage extends StatelessWidget {
                   if(Get.find<AuthController>().isLoggedIn()) {
                     //popularProduct.addItem(product);
                     cartController.addtoCartHistoryList();
+                    if(Get.find<LocationController>().addressList.isEmpty) {
+                      Get.toNamed(RouteHelper.ADDADDRESSPAGE);
+                    }
 
                   } else {
                     Get.toNamed(RouteHelper.LOGINPAGE);

@@ -1,9 +1,9 @@
+import 'package:food_delivery_demo/pages/address/add_address_page.dart';
 import 'package:food_delivery_demo/pages/auth/login_page.dart';
 import 'package:food_delivery_demo/pages/cart/cart_page.dart';
 import 'package:food_delivery_demo/pages/food/popular_food_detail.dart';
 import 'package:food_delivery_demo/pages/food/recommended_food_details.dart';
 import 'package:food_delivery_demo/pages/home/home_page.dart';
-import 'package:food_delivery_demo/pages/home/main_food_page.dart';
 import 'package:food_delivery_demo/pages/splash/splash_screen.dart';
 import 'package:get/get.dart';
 
@@ -14,6 +14,7 @@ class RouteHelper{
   static const RECOMMENDEDFOODS = "/recommended-foods";
   static const CARTPAGE = "/cart-page";
   static const LOGINPAGE = "/login-page";
+  static const ADDADDRESSPAGE = "/add-address-page";
 
   static String getSplashScreen() => "$SPLASHSCREEN";
   static String getInitial() => "$INITIAL";
@@ -21,6 +22,7 @@ class RouteHelper{
   static String getRecommendedFoods(int pageId, String page) => "$RECOMMENDEDFOODS?pageId=$pageId&page=$page";
   static String getCartPage() => "$CARTPAGE";
   static String getLoginPage() => "$LoginPage";
+  static String getAddAddressPage() => "$ADDADDRESSPAGE";
 
   //list of routes to pages
   static List<GetPage> ROUTES = [
@@ -50,5 +52,8 @@ class RouteHelper{
     },
       transition: Transition.fadeIn
     ),
+    GetPage(name: ADDADDRESSPAGE, page: () {
+      return const AddAddressPage();
+    })
   ];
 }
