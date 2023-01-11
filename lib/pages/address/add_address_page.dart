@@ -7,6 +7,7 @@ import '../../controllers/location_controller.dart';
 import '../../controllers/user_controller.dart';
 import '../../utils/colors.dart';
 import '../../utils/dimensions.dart';
+import '../../widgets/big_text.dart';
 
 class AddAddressPage extends StatefulWidget {
   const AddAddressPage({Key? key}) : super(key: key);
@@ -21,10 +22,10 @@ class _AddAddressPageState extends State<AddAddressPage> {
   final TextEditingController _contactPhoneNumber = TextEditingController();
   late bool _isLoggedIn;
   CameraPosition _cameraPosition = const CameraPosition(target: LatLng(
-      5.476310, 7.025853
+      45.51563, -122.677433
   ), zoom: 17);
   late LatLng _initialPosition = const LatLng(
-      5.476310, 7.025853
+      45.51563, -122.677433
   );
 
   @override
@@ -54,6 +55,11 @@ class _AddAddressPageState extends State<AddAddressPage> {
         backgroundColor: AppColors.mainColor,
       ),
       body: GetBuilder<LocationController>(builder: (locationController){
+        _address.text = '${locationController.placemark.name??''}'
+        '${locationController.placemark.postalCode}'
+        '${locationController.placemark.locality}'
+        '${locationController.placemark.country}';
+        print("address in my view is " + _address.text);
         return Column(
           children: [
             Container(
@@ -87,7 +93,11 @@ class _AddAddressPageState extends State<AddAddressPage> {
                   ),
                 ],
               ),
-            )
+            ),
+            SizedBox(height: Dimensions.height20),
+            BigText(text: "Delivery Address"),
+            SizedBox(height: Dimensions.height20),
+
           ],
         );
       }),

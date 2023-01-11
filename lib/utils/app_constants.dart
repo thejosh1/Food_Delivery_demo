@@ -19,4 +19,7 @@ class AppConstants {
   static const String CartKey = "Cart-list";
   static const String cartHistoryKey = "Cart-History-List";
 
+  //google endpoint
+  static const String GEOCODE_URI = "/api/v1/config/geocode-api";
+  static const String USER_ADDRESS = "user_address";
 }
