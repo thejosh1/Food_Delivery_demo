@@ -16,4 +16,8 @@ class LocationRepo {
         '?lat=${latlng.latitude}&lng=${latlng.longitude}');
   }
 
+  String getUserAddress() {
+    return sharedPreferences.getString(AppConstants.USER_ADDRESS)??"";
+  }
+
 }

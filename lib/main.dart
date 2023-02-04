@@ -6,6 +6,7 @@ import 'package:food_delivery_demo/routes/routes_helper.dart';
 import 'package:get/get.dart';
 
 
+import 'controllers/user_controller.dart';
 import 'helper/dependencies.dart' as dep;
 
 Future<void> main() async {
@@ -23,13 +24,15 @@ class MyApp extends StatelessWidget {
     Get.find<CartController>().getCartdata();
     return GetBuilder<PopularProductsController>(builder: (_) {
       return GetBuilder<RecommendedProductsController>(builder: (_) {
-        return GetMaterialApp(
-          debugShowCheckedModeBanner: false,
-          title: 'Food_Delivery_Demo',
-          //home: LoginPage(),
-           initialRoute: RouteHelper.SPLASHSCREEN,
-           getPages: RouteHelper.ROUTES,
-        );
+        return GetBuilder<UserController>(builder: (_) {
+          return GetMaterialApp(
+            debugShowCheckedModeBanner: false,
+            title: 'Food_Delivery_Demo',
+            //home: LoginPage(),
+            initialRoute: RouteHelper.SPLASHSCREEN,
+            getPages: RouteHelper.ROUTES,
+          );
+        });
       });
     });
   }

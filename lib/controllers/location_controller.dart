@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:food_delivery_demo/data/repositories/location_repo.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
@@ -18,11 +20,14 @@ class LocationController extends GetxController implements GetxService {
   List<AddressModel> _addressList = [];
   late List<AddressModel> _allAddressList;
   List<String> _addressTypeList = ["Home", "Office", "Others"];
+  List<String> get addressTypeList => _addressTypeList;
   int _addressTypeIndex = 0;
+  int get addressTypeIndex => _addressTypeIndex;
   late Map<String, dynamic> _getAddress;
 
   List<AddressModel> get addressList => _addressList;
   Map get getAddress => _getAddress;
+
 
   Placemark get placemark => _placemark;
   Placemark get pickplacemark => _pickPlacemark;
@@ -94,5 +99,26 @@ class LocationController extends GetxController implements GetxService {
       print("Error getting address");
     }
     return _address;
+  }
+
+
+  AddressModel getUserAddress() {
+    late AddressModel _addressModel;
+    /*
+    * converting from string to map using Json decode
+    * */
+    _getAddress = jsonDecode(locationRepo.getUserAddress());
+
+    try {
+      _addressModel = AddressModel.fromJson(jsonDecode(locationRepo.getUserAddress()));
+    } catch(e) {
+      print(e);
+    }
+    return _addressModel;
+  }
+
+  void setAddressTypeIndex(int index) {
+    _addressTypeIndex = index;
+    update();
   }
 }
