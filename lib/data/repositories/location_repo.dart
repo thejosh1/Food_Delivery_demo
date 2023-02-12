@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../model/address_model.dart';
 import '../api/api_client.dart';
 
 class LocationRepo {
@@ -20,4 +21,16 @@ class LocationRepo {
     return sharedPreferences.getString(AppConstants.USER_ADDRESS)??"";
   }
 
+  Future<Response> addUserAddress(AddressModel addressModel) async {
+    return await apiClient.postData(AppConstants.ADD_USER_ADDRESS, addressModel.toJson());
+  }
+
+  Future<Response> getAllAddresses() async {
+    return await apiClient.getData(AppConstants.ADDRESS_LIST);
+  }
+
+  Future<bool> saveUserAddress(String address) async {
+    apiClient.updateHeader(sharedPreferences.getString(AppConstants.TOKEN)!);
+    return await sharedPreferences.setString(AppConstants.USER_ADDRESS, address);
+  }
 }

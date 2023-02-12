@@ -10,6 +10,7 @@ import 'package:food_delivery_demo/widgets/app_icons.dart';
 import 'package:food_delivery_demo/widgets/big_text.dart';
 import 'package:get/get.dart';
 
+import '../../controllers/location_controller.dart';
 import '../../controllers/user_controller.dart';
 
 class AccountPage extends StatelessWidget {
@@ -82,15 +83,39 @@ class AccountPage extends StatelessWidget {
                       ),
                       SizedBox(height: Dimensions.height10/2,),
                       //address
-                      AccountWidget(
-                          appIcons: AppIcons(icon: Icons.location_on,
-                            iconcolor: Colors.white,
-                            iconSize: Dimensions.height10*5/2,
-                            backgroundColor: AppColors.mainColor,
-                            size: Dimensions.height10*5,
-                          ),
-                          bigText: BigText(text: "Fill in your address")
-                      ),
+                      GetBuilder<LocationController>(builder: (locationController){
+                        if(_isLoggedIn&&locationController.addressList.isEmpty) {
+                          return GestureDetector(
+                            onTap: () {
+                              Get.offNamed(RouteHelper.ADDADDRESSPAGE);
+                            },
+                            child: AccountWidget(
+                                appIcons: AppIcons(icon: Icons.location_on,
+                                  iconcolor: Colors.white,
+                                  iconSize: Dimensions.height10*5/2,
+                                  backgroundColor: AppColors.mainColor,
+                                  size: Dimensions.height10*5,
+                                ),
+                                bigText: BigText(text: "Fill in your address")
+                            ),
+                          );
+                        } else {
+                          return GestureDetector(
+                            onTap: () {
+                              Get.offNamed(RouteHelper.ADDADDRESSPAGE);
+                            },
+                            child: AccountWidget(
+                                appIcons: AppIcons(icon: Icons.location_on,
+                                  iconcolor: Colors.white,
+                                  iconSize: Dimensions.height10*5/2,
+                                  backgroundColor: AppColors.mainColor,
+                                  size: Dimensions.height10*5,
+                                ),
+                                bigText: BigText(text: "Your Address")
+                            ),
+                          );
+                        }
+                      }),
                       SizedBox(height: Dimensions.height10/2,),
                       //messages
                       AccountWidget(
@@ -109,6 +134,7 @@ class AccountPage extends StatelessWidget {
                             Get.find<AuthController>().loggedOut();
                             Get.find<CartController>().clear();
                             Get.find<CartController>().clearCartHistory();
+                            Get.find<LocationController>().clearAddressList();
                             Get.offAllNamed(RouteHelper.INITIAL);
                           } else {
                             print("Already logged out");
@@ -140,7 +166,7 @@ class AccountPage extends StatelessWidget {
               margin: EdgeInsets.only(left: Dimensions.width20, right: Dimensions.width20),
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(Dimensions.radius20),
-                  image: DecorationImage(
+                  image: const DecorationImage(
                       fit: BoxFit.cover,
                       image: AssetImage(
                           "assets/image/signintocontinue.png"

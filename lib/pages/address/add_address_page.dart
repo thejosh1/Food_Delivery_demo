@@ -5,6 +5,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import '../../controllers/auth_controller.dart';
 import '../../controllers/location_controller.dart';
 import '../../controllers/user_controller.dart';
+import '../../model/address_model.dart';
 import '../../utils/colors.dart';
 import '../../utils/dimensions.dart';
 import '../../widgets/app_icons.dart';
@@ -38,6 +39,7 @@ class _AddAddressPageState extends State<AddAddressPage> {
       Get.find<UserController>().getUserInfo();
     }
     if(Get.find<LocationController>().addressList.isNotEmpty) {
+      Get.find<LocationController>().getUserAddress();
       _cameraPosition = CameraPosition(target: LatLng(
         double.parse(Get.find<LocationController>().getAddress["latitude"]),
         double.parse(Get.find<LocationController>().getAddress["longitude"])
@@ -96,6 +98,7 @@ class _AddAddressPageState extends State<AddAddressPage> {
                         mapToolbarEnabled: false,
                         indoorViewEnabled: true,
                         compassEnabled: false,
+                        myLocationEnabled: true,
                         onCameraIdle: () {
                           locationController.updatePosition(_cameraPosition, true);
                         },
@@ -171,52 +174,33 @@ class _AddAddressPageState extends State<AddAddressPage> {
             mainAxisSize: MainAxisSize.min,
             children: [
               Container(
-                padding: EdgeInsets.only(
-                    left: Dimensions.width20*2.5,
-                    right: Dimensions.width20*2.5,
-                    top: Dimensions.height10,
-                    bottom: Dimensions.height10
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    GestureDetector(
-                      onTap: () {
-                        // controller.setQuantity(false);
-                      },
-                      child: AppIcons(icon: Icons.remove, backgroundColor: AppColors.mainColor, iconcolor: Colors.white, iconSize: Dimensions.iconSize24,),
-                    ),
-                    BigText(text: " \$ test X ", color: AppColors.mainBlackColor, size: Dimensions.font26,),
-                    GestureDetector(
-                        onTap: () {
-                          // controller.setQuantity(true);
-                        },
-                        child: AppIcons(icon: Icons.add, backgroundColor: AppColors.mainColor, iconcolor: Colors.white, iconSize: Dimensions.iconSize24,)
-                    )
-                  ],
-                ),
-              ),
-              Container(
-                height: Dimensions.bottomnavbarheight110,
+                height: Dimensions.height20*6,
                 padding: EdgeInsets.only(top: Dimensions.height20, bottom: Dimensions.height20, left: Dimensions.width20, right: Dimensions.width20),
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.only(topLeft: Radius.circular(Dimensions.radius20*2), topRight: Radius.circular(Dimensions.radius20*2)),
                     color: AppColors.buttonBackgroundColor
                 ),
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Container(
-                        padding: EdgeInsets.only(top: Dimensions.height20, bottom: Dimensions.height20, left: Dimensions.width20, right: Dimensions.width20),
-                        decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(Dimensions.radius20)
-                        ),
-                        child: Icon(Icons.favorite, color: AppColors.mainColor,)
-                    ),
                     GestureDetector(
                       onTap: () {
                         // controller.addItem(product);
+                        AddressModel _addressModel = AddressModel(addressType: locationController.addressTypeList[locationController.addressTypeIndex],
+                          contactPersonName: _contactPersonName.text,
+                          contactPhoneNumber: _contactPhoneNumber.text,
+                          address: _address.text,
+                          latitude: locationController.position.latitude.toString(),
+                          longitude: locationController.position.longitude.toString()
+                        );
+                        locationController.addAddress(_addressModel).then((response) {
+                          if(response.isSuccess) {
+                            Get.back();
+                            Get.snackbar("Address", "Address added successfully");
+                          } else {
+                            Get.snackbar("Address", "Couldn't save address");
+                          }
+                        });
                       },
                       child: Container(
                         padding: EdgeInsets.only(top: Dimensions.height20, bottom: Dimensions.height20, left: Dimensions.width20, right: Dimensions.width20),
@@ -224,7 +208,7 @@ class _AddAddressPageState extends State<AddAddressPage> {
                           color: AppColors.mainColor,
                           borderRadius: BorderRadius.circular(Dimensions.radius20),
                         ),
-                        child: BigText(text: "\$ | Add to cart", color: Colors.white,),
+                        child: BigText(text: "Save Address", color: Colors.white,),
                       ),
                     )
                   ],
