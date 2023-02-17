@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:food_delivery_demo/pages/address/pick_address_map.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
@@ -6,6 +7,7 @@ import '../../controllers/auth_controller.dart';
 import '../../controllers/location_controller.dart';
 import '../../controllers/user_controller.dart';
 import '../../model/address_model.dart';
+import '../../routes/routes_helper.dart';
 import '../../utils/colors.dart';
 import '../../utils/dimensions.dart';
 import '../../widgets/app_icons.dart';
@@ -39,6 +41,10 @@ class _AddAddressPageState extends State<AddAddressPage> {
       Get.find<UserController>().getUserInfo();
     }
     if(Get.find<LocationController>().addressList.isNotEmpty) {
+      if(Get.find<LocationController>().getUserAddressFromStorage()=="") {
+        Get.find<LocationController>().saveUserAddress(Get.find<LocationController>().addressList.last);
+      }
+
       Get.find<LocationController>().getUserAddress();
       _cameraPosition = CameraPosition(target: LatLng(
         double.parse(Get.find<LocationController>().getAddress["latitude"]),
@@ -94,6 +100,15 @@ class _AddAddressPageState extends State<AddAddressPage> {
                           target: _initialPosition,
                           zoom: 20
                       ),
+                        onTap: (latlng) {
+                          Get.toNamed(RouteHelper.PICKADDRESSMAP,
+                            arguments: PickAddressMap(
+                              fromSignUp: false,
+                              fromAddress: true,
+                              googleMapController: locationController.mapController,
+                            )
+                          );
+                        },
                         zoomControlsEnabled: false,
                         mapToolbarEnabled: false,
                         indoorViewEnabled: true,
