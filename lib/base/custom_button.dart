@@ -28,7 +28,7 @@ class CustomButton extends StatelessWidget {
   Widget build(BuildContext context) {
     final ButtonStyle _flatButton = TextButton.styleFrom(
       backgroundColor: onPressed==null?Theme.of(context).disabledColor:transparent?Colors.transparent:Theme.of(context).primaryColor,
-      minimumSize: Size(width==null?width!:Dimensions.screenWidth, height!=null?height!:Dimensions.height45+5),
+      minimumSize: Size(width==null?Dimensions.screenWidth:width!, height!=null?height!:Dimensions.height45+5),
       padding: EdgeInsets.zero,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(radius)

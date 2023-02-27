@@ -41,6 +41,17 @@ class LocationController extends GetxController implements GetxService {
   bool _updateAddressData = true;
   bool _changeAddress = true;
 
+  /*
+  * this bool variable would be used for the zoned based services functionality*/
+  bool _loading = false;
+  bool get loading => _loading;
+  /*
+  * this bool variable checks whether the user address is in a serviced zone or not*/
+  bool _inZone = false;
+  bool get inZone => _inZone;
+  bool _buttonDisabled = true;
+  bool get buttonDisabled => _buttonDisabled;
+
   void setMapController(GoogleMapController mapController) {
     _mapController = mapController;
   }
@@ -73,7 +84,8 @@ class LocationController extends GetxController implements GetxService {
               timestamp: DateTime.now()
           );
         }
-
+        ResponseModel _responseModel = await getZones(position.target.latitude.toString(), position.target.longitude.toString(), false);
+        _buttonDisabled = !_responseModel.isSuccess;
         if(_changeAddress) {
           String address = await getAddressFromGeocode(
             LatLng(
@@ -90,6 +102,8 @@ class LocationController extends GetxController implements GetxService {
       }
       _isLoading = false;
       update();
+    } else {
+      _updateAddressData=true;
     }
   }
 
@@ -176,5 +190,33 @@ class LocationController extends GetxController implements GetxService {
 
   String getUserAddressFromStorage() {
     return locationRepo.getUserAddress();
+  }
+
+  void setAddAddressData() {
+    _position = _pickPosition;
+    _placemark = _pickPlacemark;
+    _updateAddressData=false;
+    update();
+  }
+
+  Future<ResponseModel> getZones(String lat, String lng, bool markerLoad) async {
+    late ResponseModel _responseModel;
+    if(markerLoad) {
+      _loading = true;
+    } else {
+      _isLoading = true;
+    }
+    _inZone = true;
+    update();
+    Response response = await locationRepo.getZone(lat, lng);
+    if(response == 200) {
+      _inZone = true;
+      _responseModel = ResponseModel(true, response.body["zone_id"].toString());
+    } else {
+      _inZone = false;
+      _responseModel = ResponseModel(true, response.statusText.toString());
+    }
+    update();
+    return _responseModel;
   }
 }

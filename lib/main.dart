@@ -3,6 +3,7 @@ import 'package:food_delivery_demo/controllers/cart_controller.dart';
 import 'package:food_delivery_demo/controllers/popular_products_controller.dart';
 import 'package:food_delivery_demo/controllers/recommended_products_controller.dart';
 import 'package:food_delivery_demo/routes/routes_helper.dart';
+import 'package:food_delivery_demo/utils/colors.dart';
 import 'package:get/get.dart';
 
 
@@ -31,6 +32,10 @@ class MyApp extends StatelessWidget {
             //home: LoginPage(),
             initialRoute: RouteHelper.SPLASHSCREEN,
             getPages: RouteHelper.ROUTES,
+            theme: ThemeData(
+              primaryColor: AppColors.mainColor,
+              fontFamily: "Lato",
+            )
           );
         });
       });

@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import '../../base/custom_button.dart';
+import '../../routes/routes_helper.dart';
 import '../../utils/colors.dart';
 import '../../utils/dimensions.dart';
 
@@ -78,7 +79,7 @@ class _PickAddressMapState extends State<PickAddressMap> {
                             Icon(
                               Icons.location_on, size: Dimensions.width20+5, color: AppColors.yellowColor,
                             ),
-                            Expanded(child: Text('${locationController.pickplacemark.name??''}', style:
+                            Expanded(child: Text(locationController.pickplacemark.name??'', style:
                             TextStyle(
                                 color: Colors.white,
                                 fontSize: Dimensions.font16),
@@ -90,17 +91,23 @@ class _PickAddressMapState extends State<PickAddressMap> {
                       )
                   ),
                   Positioned(
-                    bottom: Dimensions.height100*2,
+                    bottom: Dimensions.height100-20,
                     left: Dimensions.width20,
                     right: Dimensions.width20,
-                    child: CustomButton(
-                      buttonText: 'Pick Address',
-                      onPressed: locationController.isLoading?null:() {
+                    child: locationController.isLoading?const Center(child: CircularProgressIndicator(),):CustomButton(
+                      buttonText: locationController.inZone?widget.fromAddress?'Pick Address':'pick location':'Service is not available',
+                      onPressed: (locationController.buttonDisabled||locationController.loading)?null:() {
                         if(locationController.pickPosition.latitude!=0&&locationController.pickplacemark.name!=null) {
                           if(widget.fromAddress) {
                             if(widget.googleMapController!=null) {
                               print("you clicked on this");
+                              widget.googleMapController!.moveCamera(CameraUpdate.newCameraPosition(CameraPosition(target: LatLng(
+                                  locationController.pickPosition.latitude, locationController.pickPosition.longitude
+                              ))));
+                              locationController.setAddAddressData();
                             }
+                            //Get.back is not suitable when updating in the call back function
+                            Get.toNamed(RouteHelper.ADDADDRESSPAGE);
                           }
                         }
                       },
