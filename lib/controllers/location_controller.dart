@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:flutter/cupertino.dart';
 import 'package:food_delivery_demo/data/api/api_checker.dart';
 import 'package:food_delivery_demo/data/repositories/location_repo.dart';
@@ -68,14 +67,16 @@ class LocationController extends GetxController implements GetxService {
       try {
         if(fromAddress) {
           _position = Position(
-            latitude: position.target.latitude,
-            longitude: position.target.longitude,
-            heading: 1,
-            accuracy: 1,
-            altitude: 1,
-            speed: 1,
-            speedAccuracy: 1,
-            timestamp: DateTime.now()
+              latitude: position.target.latitude,
+              longitude: position.target.longitude,
+              heading: 1,
+              accuracy: 1,
+              altitude: 1,
+              speed: 1,
+              speedAccuracy: 1,
+              timestamp: DateTime.now(),
+              altitudeAccuracy: 1,
+              headingAccuracy: 1
           );
         } else {
           _pickPosition = Position(
@@ -86,7 +87,9 @@ class LocationController extends GetxController implements GetxService {
               altitude: 1,
               speed: 1,
               speedAccuracy: 1,
-              timestamp: DateTime.now()
+              timestamp: DateTime.now(),
+              altitudeAccuracy: 1,
+              headingAccuracy: 1
           );
         }
         ResponseModel _responseModel = await getZones(position.target.latitude.toString(), position.target.longitude.toString(), false);

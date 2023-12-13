@@ -45,7 +45,6 @@ dependencies:
   google_maps_flutter_web: ^0.3.0+2
   flutter_google_places: ^0.3.0
 
-
 dev_dependencies:
   flutter_test:
     sdk: flutter
