@@ -42,7 +42,7 @@ class LocationRepo {
     return await apiClient.getData('${AppConstants.SEARCH_LOCATION_URI}?search_text=$text');
   }
 
-  setLocation(String placeId) async {
+  Future<Response> setLocation(String placeId) async {
     return await apiClient.getData('${AppConstants.PLACE_DETAIL_URI}?placeId=$placeId');
   }
 
